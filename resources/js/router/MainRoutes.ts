@@ -1,8 +1,5 @@
 const MainRoutes = {
     path: '/main',
-    meta: {
-        requiresAuth: true
-    },
     redirect: '/main',
     component: () => import('@/layouts/full/FullLayout.vue'),
     children: [
@@ -12,19 +9,19 @@ const MainRoutes = {
             component: () => import('@/views/dashboard/index.vue')
         },
         {
-            name: 'Typography',
-            path: '/ui/typography',
-            component: () => import('@/views/components/Typography.vue')
+            name: 'Produk',
+            path: '/produk',
+            component: () => import('@/views/produk/Produk.vue')
         },
         {
-            name: 'Shadow',
-            path: '/ui/shadow',
-            component: () => import('@/views/components/Shadow.vue')
+            name: 'Pengguna',
+            path: '/pengguna',
+            component: () => import('@/views/pengguna/Pengguna.vue')
         },
         {
-            name: 'Icons',
-            path: '/icons',
-            component: () => import('@/views/pages/Icons.vue')
+            name: 'Servis',
+            path: '/servis',
+            component: () => import('@/views/servis/Servis.vue')
         },
         {
             name: 'Starter',

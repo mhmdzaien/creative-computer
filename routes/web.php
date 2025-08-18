@@ -2,6 +2,12 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\StatusController;
+use App\Http\Controllers\Api\ServiceRequestController;
+use App\Http\Controllers\Api\ServiceProgressController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\BrandController;
+use App\Http\Controllers\Api\ProductController;
 
 Route::get('/', function () {
     return view('home');
@@ -22,6 +28,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::resource('status', StatusController::class);
+    Route::resource('service-request', ServiceRequestController::class);
+    Route::resource('service-progress', ServiceProgressController::class);
+    Route::resource('category', CategoryController::class);
+    Route::resource('brand', BrandController::class);
+    Route::resource('product', ProductController::class);
 });
 
 require __DIR__ . '/auth.php';

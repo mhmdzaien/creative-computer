@@ -810,11 +810,11 @@ const sidebarItem: menu[] = [
     // },
     // { header: 'Extra' },
 
-    // {
-    //     title: 'Sample Page',
-    //     icon: 'planet-3-line-duotone',
-    //     to: '/sample-page'
-    // },
+    {
+        title: 'Sample Page',
+        icon: 'planet-3-line-duotone',
+        to: '/sample-page'
+    },
     // {
     //     title: 'Solar Icons',
     //     icon: 'sticker-smile-circle-2-line-duotone',
