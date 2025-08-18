@@ -9,9 +9,18 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $table = 'product';
+
     protected $fillable = [
-        'id', 'nama', 'category_id', 'brand_id', 'harga', 'is_active',
-        'description', 'stok', 'image'
+        'id',
+        'nama',
+        'category_id',
+        'brand_id',
+        'harga',
+        'is_active',
+        'description',
+        'stok',
+        'image'
     ];
 
     protected $keyType = 'uuid'; // Menyatakan tipe primary key menggunakan UUID

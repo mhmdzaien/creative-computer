@@ -29,12 +29,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('status', StatusController::class);
-    Route::resource('service-request', ServiceRequestController::class);
-    Route::resource('service-progress', ServiceProgressController::class);
-    Route::resource('category', CategoryController::class);
-    Route::resource('brand', BrandController::class);
-    Route::resource('product', ProductController::class);
+    Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
+        Route::resource('status', StatusController::class);
+        Route::resource('service-request', ServiceRequestController::class);
+        Route::resource('service-progress', ServiceProgressController::class);
+        Route::resource('category', CategoryController::class);
+        Route::resource('brand', BrandController::class);
+        Route::resource('product', ProductController::class);
+    });
 });
 
 require __DIR__ . '/auth.php';

@@ -9,6 +9,9 @@ class ServiceProgress extends Model
 {
     use HasFactory;
 
+    protected $table = 'service_progress';
+
+
     protected $fillable = ['service_request_id', 'status_id', 'catatan', 'teknisi_id', 'tanggal'];
 
     public function serviceRequest()
