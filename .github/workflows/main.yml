@@ -35,4 +35,5 @@ jobs:
           key: ${{ secrets.KEY }}  # Ganti dengan SSH private key yang ada di Secrets
           port: ${{ secrets.PORT }}  # Ganti dengan port SSH server (default 22)
           source: "./public/build/*"  # Path ke folder build hasil build project
-          target: "./domains/creativepro.fun/public_html/build"  # Path tujuan di server
+          target: "./domains/creativepro.fun/public_html/build" 
+          strip_components: true 
