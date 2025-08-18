@@ -20,8 +20,12 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'role',
         'password',
     ];
+
+    public const ROLE_ADMIN = 1;
+    public const ROLE_TEKNISI = 2;
 
     /**
      * The attributes that should be hidden for serialization.
