@@ -13,3 +13,26 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: cd domains/creativepro.fun/creative-computer/ && git pull
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.19.4'  # Ganti dengan versi Node.js yang kamu butuhkan
+    # Install dependensi
+      - name: Install dependencies
+        run: |
+          npm install
+      - name: Build assets
+        run: |
+          npm run build
+    # Kirim hasil build ke server menggunakan SSH
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.HOST }}  # Ganti dengan IP/hostname server
+          username: ${{ secrets.USER }}  # Ganti dengan username server
+          key: ${{ secrets.KEY }}  # Ganti dengan SSH private key yang ada di Secrets
+          port: ${{ secrets.PORT }}  # Ganti dengan port SSH server (default 22)
+          source: "./public/build/*"  # Path ke folder build hasil build project
+          target: "/home/u256093552/domains/creativepro.fun/public_html/build"  # Path tujuan di server
