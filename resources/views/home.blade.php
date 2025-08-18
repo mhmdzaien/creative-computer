@@ -9,7 +9,7 @@
                     <div class="col-lg-11"><span class="hero-subtitle text-uppercase" data-aos="fade-up" data-aos-delay="0">Innovative Fintech Solutions</span>
                         <h1 class="hero-title mb-3" data-aos="fade-up" data-aos-delay="100">Layanan Komputer Terpercaya</h1>
                         <p class="hero-description mb-4 mb-lg-5" data-aos="fade-up" data-aos-delay="200">Penjualan dan berpengalaman dalam perbaikan komputer, laptop, dan elektronik lainnya..</p>
-                        <div class="cta d-flex gap-2 mb-4 mb-lg-5" data-aos="fade-up" data-aos-delay="300"><a class="btn" href="#">Lihat Produk</a><a class="btn btn-white-outline" href="#">Cek Status Servis
+                        <div class="cta d-flex gap-2 mb-4 mb-lg-5" data-aos="fade-up" data-aos-delay="300"><a class="btn" href="/produk">Lihat Produk</a><a class="btn btn-white-outline" href="/cek-service">Cek Status Servis
                                 <svg class="lucide lucide-arrow-up-right" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M7 7h10v10"></path>
                                     <path d="M7 17 17 7"></path>

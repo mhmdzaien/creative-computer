@@ -10,6 +10,9 @@ Route::get('/', function () {
 Route::get('/produk', function () {
     return view('produk');
 });
+Route::get('/cek-service', function () {
+    return view('cek-service');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -95,7 +95,7 @@ License: https://freebootstrap.net/license
                             <li class="nav-item"><a class="nav-link scroll-link" aria-current="page" href="{{url('/#home')}}">Home</a></li>
                             <li class="nav-item"><a class="nav-link scroll-link" href="{{url('/#services')}}">Layanan</a></li>
                             <li class="nav-item"><a class="nav-link scroll-link" href="/produk">Produk</a></li>
-                            <li class="nav-item"><a class="nav-link scroll-link" href="/services">Cek Status Service</a></li>
+                            <li class="nav-item"><a class="nav-link scroll-link" href="/cek-service">Cek Status Service</a></li>
                             <li class="nav-item"><a class="nav-link scroll-link" href="{{url('/#about')}}">Tentang Kami</a></li>
                             <li class="nav-item"><a class="nav-link scroll-link" href="{{url('/#contact')}}">Kontak</a></li>
                         </ul>
