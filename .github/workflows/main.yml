@@ -36,5 +36,5 @@ jobs:
           port: ${{ secrets.PORT }}  # Ganti dengan port SSH server (default 22)
           strip_components: 1
           source: "public/build/*"  # Path ke folder build hasil build project
-          target: "./domains/creativepro.fun/public_html/build" 
+          target: "./domains/creativepro.fun/public_html" 
          
