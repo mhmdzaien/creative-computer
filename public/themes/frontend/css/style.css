@@ -29,6 +29,10 @@ Buy Pro
   --nav-inverse-alt: #ffffff;
 }
 
+.icon-category{
+  height: 80px;
+}
+
 body {
   font: 1rem/1.7 "Inter", sans-serif;
   background-color: var(--bs-body-bg);
