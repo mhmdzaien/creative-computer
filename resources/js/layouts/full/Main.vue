@@ -34,9 +34,6 @@ watch(mdAndDown, (val) => {
                     <Icon icon="solar:list-bold" height="22" />
                 </v-btn>
 
-                <v-btn rounded="pill" class="ms-lg-6 pa-0 " height="40" width="40">
-                    <Icon icon="solar:bell-linear" height="20" width="20" />
-                </v-btn>
             </div>
             <div>
                 <ProfileDD />
@@ -51,11 +48,7 @@ watch(mdAndDown, (val) => {
 
             <perfect-scrollbar class="scrollnavbar">
                 <div class="profile">
-                    <div class="profile-img py-10 px-3">
-                        <v-avatar size="50">
-                            <img src="@/assets/images/users/user-1.jpg" width="50" alt="Julia" />
-                        </v-avatar>
-                    </div>
+                    <div class="profile-img py-5 px-3"></div>
                     <div class="profile-name d-flex align-center px-3">
                         <div class="profile-logout w-100">
                             <SidebarProfile />
