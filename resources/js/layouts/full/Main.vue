@@ -39,11 +39,6 @@ watch(mdAndDown, (val) => {
                 </v-btn>
             </div>
             <div>
-                <!-- Upgrade button -->
-                <v-btn class="mr-2 bg-success" rounded="pill"
-                    href="https://www.wrappixel.com/templates/materialpro-vuetify-admin/?ref=376#demos"
-                    target="_blank">Check Pro Template</v-btn>
-                <!-- User Profile -->
                 <ProfileDD />
             </div>
         </div>
