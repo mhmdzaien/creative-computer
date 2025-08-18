@@ -28,11 +28,11 @@ jobs:
           npm run build
     # Kirim hasil build ke server menggunakan SSH
       - name: Deploy to server
-        uses: appleboy/ssh-action@v0.1.4
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.HOST }}  # Ganti dengan IP/hostname server
           username: ${{ secrets.USER }}  # Ganti dengan username server
           key: ${{ secrets.KEY }}  # Ganti dengan SSH private key yang ada di Secrets
           port: ${{ secrets.PORT }}  # Ganti dengan port SSH server (default 22)
           source: "./public/build/*"  # Path ke folder build hasil build project
-          target: "/home/u256093552/domains/creativepro.fun/public_html/build"  # Path tujuan di server
+          target: "./domains/creativepro.fun/public_html/build"  # Path tujuan di server
