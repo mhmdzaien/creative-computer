@@ -23,11 +23,6 @@ const MainRoutes = {
             path: '/servis',
             component: () => import('@/views/servis/Servis.vue')
         },
-        {
-            name: 'Starter',
-            path: '/sample-page',
-            component: () => import('@/views/pages/SamplePage.vue')
-        },
     ]
 };
 

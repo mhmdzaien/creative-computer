@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ServiceProgressController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\UserController;
 
 Route::get('/', function () {
     return view('home');
@@ -36,6 +37,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('category', CategoryController::class);
         Route::resource('brand', BrandController::class);
         Route::resource('product', ProductController::class);
+        Route::resource('users', UserController::class);
     });
 });
 

@@ -37,7 +37,7 @@ const sidebarItem: menu[] = [
     },
     {
         title: 'Pengguna',
-        icon: 'shield-user-line-duotone',
+        icon: 'users-group-rounded-line-duotone',
         to: '/pengguna',
     },
     // {
@@ -809,12 +809,6 @@ const sidebarItem: menu[] = [
     //     ]
     // },
     // { header: 'Extra' },
-
-    {
-        title: 'Sample Page',
-        icon: 'planet-3-line-duotone',
-        to: '/sample-page'
-    },
     // {
     //     title: 'Solar Icons',
     //     icon: 'sticker-smile-circle-2-line-duotone',
