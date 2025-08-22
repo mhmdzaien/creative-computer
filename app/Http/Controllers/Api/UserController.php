@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules;
+
 
 class UserController extends Controller
 {
@@ -19,39 +23,51 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'category' => 'required|string|max:255',
-            'icon' => 'required|string|max:255',
+         $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'role' => ['required'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'password' => ['required', 'confirmed:confirmPassword', Rules\Password::defaults()],
         ]);
 
-        $category = User::create($request->all());
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'role' => $request->role,
+            'password' => Hash::make($request->password),
+        ]);
 
-        return response()->json($category, 201);
+        return response()->json($user, 201);
     }
 
     public function show($id)
     {
-        $category = User::findOrFail($id);
-        return response()->json($category);
+        $user = User::findOrFail($id);
+        return response()->json($user);
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'category' => 'required|string|max:255',
-            'icon' => 'required|string|max:255',
+            'name' => ['required', 'string', 'max:255'],
+            'role' => ['required'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique('users')->ignore($id)],
         ]);
 
-        $category = User::findOrFail($id);
-        $category->update($request->all());
+        $user = User::findOrFail($id);
+        $user->update([
+            'name'=>$request->name,
+            'role'=>$request->role,
+            'email'=>$request->email
+        ]);
 
-        return response()->json($category);
+        return response()->json($user);
     }
 
     public function destroy($id)
     {
-        $category = User::findOrFail($id);
-        $category->delete();
+        $user = User::findOrFail($id);
+        $user->delete();
 
         return response()->json(null, 204);
     }

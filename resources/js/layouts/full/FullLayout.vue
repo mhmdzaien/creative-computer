@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import MainView from './Main.vue';
+
 </script>
 <template>
     <v-locale-provider >

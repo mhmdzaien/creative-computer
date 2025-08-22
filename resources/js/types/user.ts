@@ -8,10 +8,11 @@ export namespace User {
 }
 
 export type User = {
-    id: number;
+    id?: number;
     name: string;
     email: string;
     password: string;
+    confirmPassword?:string;
     role: number;
     created_at: string;
 };

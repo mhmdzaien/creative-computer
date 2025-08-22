@@ -9,8 +9,11 @@ import Logo from './logo/Logo.vue';
 import ProfileDD from './vertical-header/ProfileDD.vue';
 import NavCollapse from './vertical-sidebar/NavCollapse/NavCollapse.vue';
 import SidebarProfile from './vertical-header/SidebarProfile.vue';
-import Topbar from './Topbar.vue';
 import { useDisplay } from 'vuetify/lib/framework.mjs';
+
+import { useCurrentUserStore } from '@/stores/current-user.store';
+
+const currentUser = useCurrentUserStore();
 const sidebarMenu = shallowRef(sidebarItems);
 const sDrawer = ref(true);
 
@@ -73,7 +76,17 @@ watch(mdAndDown, (val) => {
             <div class="maxWidth">
                 <RouterView />
             </div>
+
         </v-container>
+
     </v-main>
+    <v-snackbar v-model="currentUser.snackbar.show" :color="currentUser.snackbar.color" timeout="3000">
+        {{ currentUser.snackbar.message }}
+        <template v-slot:action="{ attrs }">
+            <v-btn text v-bind="attrs" @click="currentUser.snackbar.show = false">
+                Close
+            </v-btn>
+        </template>
+    </v-snackbar>
 
 </template>
