@@ -29,7 +29,7 @@ const deleteDialog = ref(false)
 const valid = ref(false)
 const saving = ref(false)
 const isEditing = ref(false)
-const roleList = Object.keys(User.roleList).map(id => ({ id: id, role: User.roleList[id] }))
+const roleList = Object.keys(User.roleList).map(id => ({ value: Number(id), title: User.roleList[id] }))
 const validationError: Ref<any> = ref({});
 const currentUser = useCurrentUserStore();
 const user = ref({
@@ -38,7 +38,7 @@ const user = ref({
     email: '',
     password: '',
     confirmPassword: '',
-    role: null,
+    role: 1,
     email_verified: false
 })
 
@@ -50,7 +50,7 @@ const openAddDialog = () => {
         email: '',
         password: '',
         confirmPassword: '',
-        role: null,
+        role: 1,
         email_verified: false
     };
     dialog.value = true
@@ -179,7 +179,7 @@ function loadItems({ page, itemsPerPage, sortBy }) {
         <v-dialog v-model="dialog" max-width="500px" persistent>
             <v-card>
                 <v-card-title>
-                    <span class="text-h5">{{ isEditing ? 'ubah Pengguna' : 'Tambah Pengguna Baru' }}</span>
+                    <span class="text-h5">{{ isEditing ? 'Ubah Pengguna' : 'Tambah Pengguna Baru' }}</span>
                 </v-card-title>
 
                 <v-card-text>
@@ -209,7 +209,7 @@ function loadItems({ page, itemsPerPage, sortBy }) {
                                 </v-col>
 
                                 <v-col cols="12">
-                                    <v-select v-model="user.role" item-value="id" item-title="role"
+                                    <v-select v-model="user.role"
                                         :error-messages="validationError.role?.at(0)" :items="roleList"
                                         required></v-select>
                                 </v-col>

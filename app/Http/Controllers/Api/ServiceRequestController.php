@@ -8,9 +8,13 @@ use App\Http\Controllers\Controller;
 
 class ServiceRequestController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(ServiceRequest::all());
+        $paginator = ServiceRequest::paginate($request->get('itemsPerPage', 5));
+        return response()->json([
+            'items' => $paginator->items(),
+            'total' => $paginator->total(),
+        ]);
     }
 
     public function store(Request $request)

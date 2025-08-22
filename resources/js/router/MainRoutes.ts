@@ -19,14 +19,14 @@ const MainRoutes = {
             component: () => import('@/views/pengguna/Pengguna.vue')
         },
         {
-            name: 'Form Pengguna',
-            path: '/pengguna/form',
-            component: () => import('@/views/pengguna/Form.vue')
-        },
-        {
             name: 'Servis',
             path: '/servis',
             component: () => import('@/views/servis/Servis.vue')
+        },
+        {
+            name: 'Servis Progress',
+            path: '/servis/progress/:id',
+            component: () => import('@/views/servis/Progress.vue')
         },
     ]
 };
