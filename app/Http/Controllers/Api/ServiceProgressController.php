@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Models\ServiceProgress;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\ServiceRequest;
+use Illuminate\Support\Facades\DB;
 
 class ServiceProgressController extends Controller
 {
@@ -19,12 +21,19 @@ class ServiceProgressController extends Controller
             'service_request_id' => 'required|uuid',
             'status_id' => 'required|integer',
             'catatan' => 'required|string|max:255',
-            'teknisi_id' => 'required|integer',
             'tanggal' => 'required|date',
         ]);
-
-        $serviceProgress = ServiceProgress::create($request->all());
-
+        $serviceProgress = DB::transaction(function () use ($request) {
+            $serviceProgress = ServiceProgress::create([
+                'service_request_id' => $request->service_request_id,
+                'status_id' => $request->status_id,
+                'catatan' => $request->catatan,
+                'tanggal' => $request->tanggal,
+                'teknisi_id' => auth()->user()->id,
+            ]);
+            ServiceRequest::where(['id'=>$request->service_request_id])->update(['current_progress_id'=>$serviceProgress->id]);
+            return $serviceProgress;
+        });
         return response()->json($serviceProgress, 201);
     }
 

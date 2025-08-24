@@ -19,16 +19,16 @@ const sidebarItem: menu[] = [
     { header: 'Home' },
     {
         title: 'Dashboard',
-        icon: 'atom-line-duotone',
+        icon: 'home-angle-linear',
         to: '/',
         external: false
     },
-    {
-        title: 'Produk',
-        icon: 'screencast-2-linear',
-        to: '/produk',
-        external: false
-    },
+    // {
+    //     title: 'Produk',
+    //     icon: 'screencast-2-linear',
+    //     to: '/produk',
+    //     external: false
+    // },
     {
         title: 'Servis',
         icon: 'atom-linear',

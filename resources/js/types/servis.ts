@@ -1,27 +1,39 @@
 
 // Types
-interface ServiceRequest {
-  id: string
-  nomor: string
+
+export interface SelectOption {
+  title: string
+  value: string | number
+}
+
+export interface Teknisi {
+  id:number;
+  name:string;
+  email:string;
+}
+export interface ServiceRequest {
+  id?: string
+  nomor?: string
   pelanggan: string
   kontak_pelanggan: string
   barang: string
-  category_id: string
+  category_id: number | null
   tanggal_masuk: string
   estimasi_selesai: string
-  teknisi_id: number
+  teknisi_id: number | null
+  teknisi?: Teknisi
   estimasi_biaya: number
   keluhan: string
-  current_progress_id: number
-  current_status: number
+  current_progress_id?: number
+  current_progress?: ServiceProgress,
+  progress?:ServiceProgress[],
 }
 
-interface ServiceProgress {
-  id: number
+export interface ServiceProgress {
+  id?: number
   service_request_id: string
   status_id: number
   catatan: string
-  teknisi_id: number
-  teknisi_name: string
+  teknisi_id?: number
   tanggal: string
 }

@@ -98,15 +98,6 @@ const confirmDelete = async () => {
         loadItems(gridOptions.value);
         currentUser.showSnackbar('User deleted successfully')
         deleteDialog.value = false
-        user.value = {
-            id: null,
-            name: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-            role: null,
-            email_verified: false
-        };
     } catch (error) {
         currentUser.showSnackbar('Error deleting user', 'error')
         console.error('Error deleting user:', error)
@@ -164,11 +155,11 @@ function loadItems({ page, itemsPerPage, sortBy }) {
                         <span class="text-capitalize">{{ User.roleList[item.role] }}</span>
                     </template>
                     <template v-slot:item.id="{ item }">
-                        <v-btn color="primary" class="mx-1" @click="editUser(item)">
-                            Edit
+                        <v-btn class="mx-1" @click="editUser(item)">
+                            <v-icon>mdi-pencil</v-icon>
                         </v-btn>
                         <v-btn color="error" class="mx-1" @click="deleteUser(item)">
-                            Hapus
+                            <v-icon>mdi-delete</v-icon>
                         </v-btn>
                     </template>
                 </v-data-table-server>
@@ -209,9 +200,8 @@ function loadItems({ page, itemsPerPage, sortBy }) {
                                 </v-col>
 
                                 <v-col cols="12">
-                                    <v-select v-model="user.role"
-                                        :error-messages="validationError.role?.at(0)" :items="roleList"
-                                        required></v-select>
+                                    <v-select v-model="user.role" :error-messages="validationError.role?.at(0)"
+                                        :items="roleList" required></v-select>
                                 </v-col>
                             </v-row>
                         </v-form>

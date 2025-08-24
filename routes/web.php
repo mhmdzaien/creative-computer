@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\UserController;
+use App\Models\Status;
 
 Route::get('/', function () {
     return view('home');
@@ -18,12 +19,14 @@ Route::get('/produk', function () {
     return view('produk');
 });
 Route::get('/cek-service', function () {
-    return view('cek-service');
+    return view('cek-service',['status'=>Status::all()]);
 });
 
 Route::get('/admin', function () {
     return view('admin');
 })->middleware(['auth', 'verified'])->name('admin');
+
+Route::get('/service-status/{id}',[ServiceRequestController::class,'check'])->name('service-status');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

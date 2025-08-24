@@ -74,7 +74,7 @@
                         </form>
 
                         <div class="text-center text-muted mt-3">
-                            <small>Contoh nomor servis: SRV001, SRV002, SRV003</small>
+                            <small>Contoh nomor servis: SRV202500001</small>
                         </div>
                     </div>
                 </div>
@@ -92,12 +92,12 @@
                             <div class="d-flex align-items-center">
                                 <i :class="getDeviceIcon(serviceData.deviceType)" class="text-primary me-3" style="font-size: 3rem;"></i>
                                 <div>
-                                    <h3 class="text-dark fw-bold mb-1">@{{ serviceData.deviceType }}</h3>
+                                    <h3 class="text-dark fw-bold mb-1">@{{ serviceData.barang }}</h3>
                                     <div class="text-muted fs-5">@{{ serviceData.brand }} @{{ serviceData.model }}</div>
                                 </div>
                             </div>
                             <div class="badge bg-success rounded-pill px-3 py-2 fs-6">
-                                Selesai - Siap Diambil
+                                @{{ getStatus(serviceData.current_progress.status_id).status }}
                             </div>
                         </div>
 
@@ -106,31 +106,31 @@
                             <div class="col-md-6">
                                 <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
                                     <span class="text-muted fw-medium">Nomor Servis:</span>
-                                    <span class="text-dark fw-semibold">@{{ serviceData.serviceNumber }}</span>
+                                    <span class="text-dark fw-semibold">@{{ serviceData.nomor }}</span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
                                     <span class="text-muted fw-medium">Nama Pelanggan:</span>
-                                    <span class="text-dark fw-semibold">@{{ serviceData.customerName }}</span>
+                                    <span class="text-dark fw-semibold">@{{ serviceData.pelanggan }}</span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
                                     <span class="text-muted fw-medium">Tanggal Masuk:</span>
-                                    <span class="text-dark fw-semibold">@{{ serviceData.dateReceived }}</span>
+                                    <span class="text-dark fw-semibold">@{{ formatDate(serviceData.tanggal_masuk) }}</span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center py-2">
                                     <span class="text-muted fw-medium">Estimasi Selesai:</span>
-                                    <span class="text-dark fw-semibold">@{{ serviceData.estimatedCompletion }}</span>
+                                    <span class="text-dark fw-semibold">@{{ formatDate(serviceData.estimasi_selesai) }}</span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
                                     <span class="text-muted fw-medium">Teknisi:</span>
-                                    <span class="text-dark fw-semibold">@{{ serviceData.technician }}</span>
+                                    <span class="text-dark fw-semibold">@{{ serviceData.teknisi.name }}</span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center py-2">
                                     <span class="text-muted fw-medium">Estimasi Biaya:</span>
-                                    <span class="text-success fw-bold">Rp @{{ formatCurrency(serviceData.cost) }}</span>
+                                    <span class="text-success fw-bold">Rp @{{ formatCurrency(serviceData.estimasi_biaya) }}</span>
                                 </div>
                                 <div class="bg-light rounded-3 p-3 mb-4">
                                     <div class="fw-semibold text-dark mb-2">Keluhan:</div>
-                                    <div class="text-dark">@{{ serviceData.complaint }}</div>
+                                    <div class="text-dark">@{{ serviceData.keluhan }}</div>
                                 </div>
                             </div>
 
@@ -142,27 +142,28 @@
 
                                 <div class="position-relative">
                                     <div
-                                        v-for="(step, index) in serviceData.progressSteps"
+                                        v-for="(step, index) in serviceData.progress"
                                         :key="index"
                                         class="d-flex align-items-start mb-4 position-relative">
                                         <!-- Progress Line -->
                                         <div
-                                            v-if="index < serviceData.progressSteps.length - 1"
-                                            :class="[ step.completed ? 'completed':'uncompleted']"
+                                            v-if="index < serviceData.progress.length - 1"
+                                            :class="[ step.status_id == 1 ? 'completed':'uncompleted']"
                                             class="progress-line"></div>
 
                                         <!-- Progress Dot -->
                                         <div
-                                            :class="step.completed ? 'bg-success text-white' : 'bg-warning text-white'"
+                                            :class="step.status_id == 1 ? 'bg-success text-white' : 'bg-warning text-white'"
                                             class="progress-dot rounded-circle d-flex align-items-center justify-content-center me-3 flex-shrink-0">
-                                            <i v-if="step.completed" class="fas fa-check"></i>
+                                            <i v-if="step.status_id == 1" class="fas fa-check"></i>
                                             <span v-else class="fw-bold"></span>
                                         </div>
 
                                         <!-- Progress Content -->
                                         <div>
-                                            <div class="text-dark fw-semibold mb-1">@{{ step.title }}</div>
-                                            <div class="text-muted small">@{{ step.date }}</div>
+                                            <div class="text-dark fw-semibold mb-1">@{{ getStatus(step.status_id).status }}</div>
+                                            <div class="text-muted fw-semibold mb-1">@{{ step.catatan }}</div>
+                                            <div class="text-muted small">@{{ step.tanggal }}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -201,92 +202,7 @@
                 serviceData: null,
                 loading: false,
                 notFound: false,
-                sampleData: {
-                    'SRV001': {
-                        serviceNumber: 'SRV001',
-                        deviceType: 'Laptop',
-                        brand: 'Dell',
-                        model: 'Inspiron 15 3000',
-                        customerName: 'Ahmad Rizky',
-                        dateReceived: '2024-01-08',
-                        estimatedCompletion: '2024-01-10',
-                        technician: 'Dedi Kurniawan',
-                        cost: 450000,
-                        complaint: 'Laptop tidak bisa menyala, kemungkinan masalah pada power supply',
-                        progressSteps: [{
-                                title: 'Perangkat diterima dan dilakukan diagnosa',
-                                date: '2024-01-08',
-                                completed: true
-                            },
-                            {
-                                title: 'Pembersihan dan perbaikan komponen',
-                                date: '2024-01-09',
-                                completed: true
-                            },
-                            {
-                                title: 'Testing dan quality check selesai',
-                                date: '2024-01-10',
-                                completed: true
-                            }
-                        ]
-                    },
-                    'SRV002': {
-                        serviceNumber: 'SRV002',
-                        deviceType: 'Printer',
-                        brand: 'Canon',
-                        model: 'PIXMA G2010',
-                        customerName: 'Siti Nurhaliza',
-                        dateReceived: '2024-01-08',
-                        estimatedCompletion: '2024-01-10',
-                        technician: 'Dedi Kurniawan',
-                        cost: 75000,
-                        complaint: 'Printer tidak bisa print, head printer kotor',
-                        progressSteps: [{
-                                title: 'Perangkat diterima dan dilakukan diagnosa',
-                                date: '2024-01-08',
-                                completed: true
-                            },
-                            {
-                                title: 'Pembersihan head printer dan kalibrasi',
-                                date: '2024-01-09',
-                                completed: true
-                            },
-                            {
-                                title: 'Testing dan quality check selesai',
-                                date: '2024-01-10',
-                                completed: true
-                            }
-                        ]
-                    },
-                    'SRV003': {
-                        serviceNumber: 'SRV003',
-                        deviceType: 'PC Desktop',
-                        brand: 'Asus',
-                        model: 'VivoPC X441MA',
-                        customerName: 'Budi Santoso',
-                        dateReceived: '2024-01-07',
-                        estimatedCompletion: '2024-01-12',
-                        technician: 'Andi Wijaya',
-                        cost: 850000,
-                        complaint: 'Komputer sering hang dan blue screen, perlu penggantian RAM',
-                        progressSteps: [{
-                                title: 'Perangkat diterima dan dilakukan diagnosa',
-                                date: '2024-01-07',
-                                completed: true
-                            },
-                            {
-                                title: 'Penggantian RAM dan pembersihan sistem',
-                                date: '2024-01-08',
-                                completed: true
-                            },
-                            {
-                                title: 'Testing dan quality check selesai',
-                                date: '2024-01-10',
-                                completed: false
-                            }
-                        ]
-                    }
-                }
+                statusList: <?= $status->toJson(); ?>
             }
         },
         methods: {
@@ -294,23 +210,31 @@
                 this.loading = true;
                 this.notFound = false;
                 this.serviceData = null;
-
-                // Simulate API call
-                setTimeout(() => {
-                    const data = this.sampleData[this.searchNumber.toUpperCase()];
-                    if (data) {
+                fetch(`/service-status/${this.searchNumber}`).then(async (res) => {
+                    try {
+                        const data = await res.json();
                         this.serviceData = data;
-                    } else {
+                    } catch {
                         this.notFound = true;
                     }
+                }).catch(error => {
+                    this.notFound = true;
+                }).finally(() => {
                     this.loading = false;
-                }, 1500);
+                })
             },
-
+            getStatus(id) {
+                return this.statusList.find(item => item.id == id) ?? {};
+            },
             resetSearch() {
                 this.searchNumber = '';
                 this.serviceData = null;
                 this.notFound = false;
+            },
+
+            formatDate(dateString) {
+                if (!dateString) return 'N/A'
+                return new Date(dateString).toLocaleDateString('id-ID')
             },
 
             getDeviceIcon(deviceType) {
