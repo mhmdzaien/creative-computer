@@ -34,10 +34,25 @@
                         <v-icon icon="solar:filter-bold" />
                     </v-btn>
                     <v-spacer></v-spacer>
-                    <v-btn color="primary" @click="openAddDialog">
+                    <v-btn class="mx-1" color="primary" @click="openAddDialog">
                         <v-icon left>mdi-plus</v-icon>
                         Servis Baru
                     </v-btn>
+                    <v-menu>
+                        <template v-slot:activator="{ props }">
+                            <v-btn color="primary" v-bind="props">
+                                <v-icon>mdi-cog</v-icon>
+                            </v-btn>
+                        </template>
+                        <v-list>
+                            <v-list-item @click="showDialogRef('Kelengkapan','kelengkapan')">
+                                <v-list-item-title>Referensi Kelengkapan</v-list-item-title>
+                            </v-list-item>
+                              <v-list-item @click="showDialogRef('Jenis Layanan','jenis_layanan')">
+                                <v-list-item-title>Referensi Jenis Layanan</v-list-item-title>
+                            </v-list-item>
+                        </v-list>
+                    </v-menu>
                 </v-card-title>
                 <!-- Service Requests Table -->
                 <v-data-table-server v-model:options="gridOptions" :headers="headers" :items="serverItems"
@@ -68,9 +83,13 @@
                             :to="`/servis/progress/${item.id}`">
                             <v-icon>mdi-timeline</v-icon>
                         </v-btn>
+                        <v-btn title="Cetak Nota" target="_blank" :href="`/admin/servis/cetak/${item.id}`">
+                            <v-icon>mdi-printer</v-icon>
+                        </v-btn>
                         <v-btn color="error" title="Hapus data" @click.stop="deleteRequest(item)">
                             <v-icon>mdi-delete</v-icon>
                         </v-btn>
+
                     </template>
                 </v-data-table-server>
             </v-card>
@@ -101,17 +120,14 @@
                         </v-col>
 
                         <v-col cols="12" md="6">
-                            <v-text-field v-model="serviceRequest.barang"
-                                :error-messages="validationError.barang?.at(0)" label="Barang*" required></v-text-field>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
                             <v-select v-model="serviceRequest.category_id"
                                 :error-messages="validationError.category_id?.at(0)" :items="categoryOptions"
                                 label="Kategori*"></v-select>
                         </v-col>
-
-
+                        <v-col cols="12" md="6">
+                            <v-text-field v-model="serviceRequest.barang"
+                                :error-messages="validationError.barang?.at(0)" label="Barang*" required></v-text-field>
+                        </v-col>
                         <v-col cols="12" md="6">
                             <v-text-field v-model="serviceRequest.tanggal_masuk"
                                 :error-messages="validationError.tanggal_masuk?.at(0)" label="Tanggal Masuk*"
@@ -154,8 +170,7 @@
             </v-card-actions>
         </v-card>
     </v-dialog>
-
-
+    <ReferenceGrid v-model="dialogReference.show" :setting-name="dialogReference.settingName" :title="dialogReference.title"></ReferenceGrid>
     <!-- Delete Confirmation Dialog -->
     <v-dialog v-model="deleteDialog" max-width="400px">
         <v-card>
@@ -180,6 +195,7 @@ import { ref, reactive, computed, Ref, onMounted } from 'vue'
 import { ServiceRequest, ServiceProgress, SelectOption } from '../../types/servis'
 import { useCurrentUserStore } from '../../stores/current-user.store'
 import { formatCurrency, formatDate, getStatusColor, getStatusText, loadCategory } from '../../plugins/servis-utils'
+import ReferenceGrid from '../../components/ReferenceGrid.vue'
 
 interface Statistic {
     title: string
@@ -197,6 +213,11 @@ const gridOptions = ref({
     page: 1,
     sortBy: '',
 })
+const dialogReference = ref({
+    show:false,
+    title:'',
+    settingName:''
+});
 const totalItems = ref(0)
 const filter = ref({})
 const filterShow = ref(false)
@@ -270,6 +291,14 @@ function loadItems({ page, itemsPerPage, sortBy }) {
     }).catch(() => {
         loading.value = false
     })
+}
+
+const showDialogRef = (title:string,settingName:string) => {
+    dialogReference.value = {
+        show:true,
+        title,
+        settingName
+    }
 }
 
 const statistics = computed<Statistic[]>(() => {

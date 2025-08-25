@@ -94,6 +94,16 @@ class ServiceRequestController extends Controller
         return response()->json($serviceRequest);
     }
 
+    public function print($id)
+    {
+        $serviceRequest = ServiceRequest::with(['progress' => function ($q) {
+            $q->orderBy('created_at');
+        }, 'teknisi', 'category'])->findOrFail($id);
+        return view('/nota-service',[
+            'serviceRquest'=>$serviceRequest
+        ]);
+    }
+
     public function check($id)
     {
         $serviceRequest = ServiceRequest::with(['progress' => function ($q) {

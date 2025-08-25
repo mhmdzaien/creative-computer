@@ -87,7 +87,7 @@ const saveProgress = async (): Promise<void> => {
         <v-card-title class="d-flex align-center justify-space-between">
           <div>
             <v-icon class="mr-2">mdi-clipboard-text</v-icon>
-            Informasi Service Request
+            Informasi
           </div>
           <v-btn small color="secondary" to="/servis">
             Kembali

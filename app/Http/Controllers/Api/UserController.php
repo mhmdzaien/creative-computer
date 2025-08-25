@@ -14,7 +14,7 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $builder = User::with('currentProgress');
+        $builder = User::query();
         if ($request->get('search')) {
             $columnToSearch = [
                 'name',
