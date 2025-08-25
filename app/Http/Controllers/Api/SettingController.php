@@ -9,20 +9,19 @@ use App\Models\Setting;
 
 class SettingController extends Controller
 {
-    public function store(Request $request)
+    public function update(Request $request,$id)
     {
         $request->validate([
-            'id' => 'required|string|max:255',
             'value' => 'required',
         ]);
 
-        $category = Category::create($request->all());
-        return response()->json($category, 201);
+        $setting = Setting::set($id,$request->get('value'));
+        return response()->json($setting, 201);
     }
 
     public function show($id)
     {
-        $setting = Setting::findOrFail($id);
+        $setting = Setting::get($id);
         return response()->json($setting);
     }
 

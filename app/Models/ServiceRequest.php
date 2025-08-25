@@ -15,6 +15,8 @@ class ServiceRequest extends Model
 
     protected $attributes = [
         'current_progress_id' => 0,
+        'jenis_layanan'=>[],
+        'kelengkapan'=>[]
     ];
 
 
@@ -30,7 +32,14 @@ class ServiceRequest extends Model
         'teknisi_id',
         'estimasi_biaya',
         'keluhan',
-        'progress_id'
+        'progress_id',
+        'kelengkapan',
+        'jenis_layanan'
+    ];
+
+    protected $casts = [
+        'kelengkapan' => 'array', 
+        'jenis_layanan' => 'array', 
     ];
 
     protected $keyType = 'uuid'; // Menyatakan tipe primary key menggunakan UUID

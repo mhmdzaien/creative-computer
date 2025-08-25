@@ -113,6 +113,14 @@ const saveProgress = async (): Promise<void> => {
                 prepend-inner-icon="mdi-calendar-check" readonly variant="outlined" density="comfortable" />
             </v-col>
             <v-col cols="12">
+              <v-text-field :model-value="serviceRequest?.kelengkapan" label="Kelengkapan" prepend-inner-icon="mdi-toolbox"
+                readonly variant="outlined" rows="4" auto-grow />
+            </v-col>
+            <v-col cols="12">
+              <v-text-field :model-value="serviceRequest?.jenis_layanan ?? '-'" label="Jenis Layanan" prepend-inner-icon="mdi-wrench-cog"
+                readonly variant="outlined" rows="4" auto-grow />
+            </v-col>
+            <v-col cols="12">
               <v-textarea :model-value="serviceRequest?.keluhan" label="Keluhan" prepend-inner-icon="mdi-message-text"
                 readonly variant="outlined" rows="4" auto-grow />
             </v-col>

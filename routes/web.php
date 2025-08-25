@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/servis/cetak/{id}', [ServiceRequestController::class, 'print'])->name('service.print');
     Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
         Route::resource('status', StatusController::class);
-        Route::resource('settings',SettingController::class)->only(['show','store']);
+        Route::resource('settings',SettingController::class)->only(['show','update']);
         Route::resource('service-request', ServiceRequestController::class);
         Route::resource('service-progress', ServiceProgressController::class);
         Route::resource('category', CategoryController::class);

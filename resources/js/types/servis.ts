@@ -26,6 +26,8 @@ export interface ServiceRequest {
   keluhan: string
   current_progress_id?: number
   current_progress?: ServiceProgress,
+  kelengkapan: string[],
+  jenis_layanan: string[],
   progress?:ServiceProgress[],
 }
 

@@ -45,10 +45,10 @@
                             </v-btn>
                         </template>
                         <v-list>
-                            <v-list-item @click="showDialogRef('Kelengkapan','kelengkapan')">
+                            <v-list-item @click="showDialogRef('Kelengkapan', 'kelengkapan')">
                                 <v-list-item-title>Referensi Kelengkapan</v-list-item-title>
                             </v-list-item>
-                              <v-list-item @click="showDialogRef('Jenis Layanan','jenis_layanan')">
+                            <v-list-item @click="showDialogRef('Jenis Layanan', 'jenis_layanan')">
                                 <v-list-item-title>Referensi Jenis Layanan</v-list-item-title>
                             </v-list-item>
                         </v-list>
@@ -152,10 +152,28 @@
                                 :error-messages="validationError.estimasi_biaya?.at(0)" label="Estimasi Biaya*"
                                 type="number" min="0" required></v-text-field>
                         </v-col>
+                        <v-col cols="12">
+                            <v-label>Kelengkapan</v-label>
+                            <v-row>
+                                <v-col sm="12" md="3" v-for="item in listReferensi.kelengkapan">
+                                    <v-checkbox density="compact" class="no-message"
+                                        v-model="serviceRequest.kelengkapan" :label="item" :value="item"></v-checkbox>
+                                </v-col>
+                            </v-row>
+                        </v-col>
 
                         <v-col cols="12">
                             <v-textarea v-model="serviceRequest.keluhan"
                                 :error-messages="validationError.keluhan?.at(0)" label="Keluhan*" rows="3"></v-textarea>
+                        </v-col>
+                        <v-col cols="12">
+                            <v-label>Jenis Layanan</v-label>
+                            <v-row>
+                                <v-col sm="12" md="3" v-for="item in listReferensi.jenis_layanan">
+                                    <v-checkbox density="compact" class="no-message"
+                                        v-model="serviceRequest.jenis_layanan" :label="item" :value="item"></v-checkbox>
+                                </v-col>
+                            </v-row>
                         </v-col>
                     </v-row>
                 </v-form>
@@ -170,7 +188,8 @@
             </v-card-actions>
         </v-card>
     </v-dialog>
-    <ReferenceGrid v-model="dialogReference.show" :setting-name="dialogReference.settingName" :title="dialogReference.title"></ReferenceGrid>
+    <ReferenceGrid v-model="dialogReference.show" :setting-name="dialogReference.settingName"
+        :title="dialogReference.title"></ReferenceGrid>
     <!-- Delete Confirmation Dialog -->
     <v-dialog v-model="deleteDialog" max-width="400px">
         <v-card>
@@ -214,9 +233,9 @@ const gridOptions = ref({
     sortBy: '',
 })
 const dialogReference = ref({
-    show:false,
-    title:'',
-    settingName:''
+    show: false,
+    title: '',
+    settingName: ''
 });
 const totalItems = ref(0)
 const filter = ref({})
@@ -233,6 +252,7 @@ const requestToDelete = ref<ServiceRequest | null>(null)
 const teknisiOptions = ref<SelectOption[]>([]);
 const categoryOptions = ref<SelectOption[]>([]);
 const loadingTeknisi = ref(false);
+const listReferensi = ref({ kelengkapan: [], jenis_layanan: [] });
 
 onMounted(() => {
     loadCategory().then(res => {
@@ -250,6 +270,8 @@ const serviceRequest = ref<ServiceRequest>({
     estimasi_selesai: '',
     teknisi_id: null,
     estimasi_biaya: 0,
+    kelengkapan: [],
+    jenis_layanan: [],
     keluhan: '',
 })
 
@@ -263,14 +285,20 @@ const headers = [
     { title: 'Actions', value: 'actions', sortable: false }
 ]
 
-function loadTeknisi() {
+async function loadReferensData() {
     loadingTeknisi.value = true;
-    axios.get('/api/users')
-        .then(res => {
-            teknisiOptions.value = res.data.items.map(item => ({ value: item.id, title: item.name }));
-        }).finally(() => {
-            loadingTeknisi.value = false;
-        })
+    try {
+        const teknisiResponse = await axios.get('/api/users');
+        teknisiOptions.value = teknisiResponse.data.items.map(item => ({ value: item.id, title: item.name }));
+        const kelengkapanResponse = await axios.get('/api/settings/kelengkapan');
+        const jenisLayananResponse = await axios.get('/api/settings/jenis_layanan');
+        listReferensi.value = {
+            kelengkapan: kelengkapanResponse.data,
+            jenis_layanan: jenisLayananResponse.data
+        }
+    } finally {
+        loadingTeknisi.value = false;
+    }
 }
 
 function loadItems({ page, itemsPerPage, sortBy }) {
@@ -293,9 +321,9 @@ function loadItems({ page, itemsPerPage, sortBy }) {
     })
 }
 
-const showDialogRef = (title:string,settingName:string) => {
+const showDialogRef = (title: string, settingName: string) => {
     dialogReference.value = {
-        show:true,
+        show: true,
         title,
         settingName
     }
@@ -349,17 +377,21 @@ const openAddDialog = (): void => {
         estimasi_selesai: '',
         teknisi_id: null,
         estimasi_biaya: 0,
+        jenis_layanan: [],
+        kelengkapan: [],
         keluhan: '',
     })
-    loadTeknisi();
+    loadReferensData();
     requestDialog.value = true
 }
 
 const editRequest = (request: ServiceRequest): void => {
     isEditingRequest.value = true
     request.category_id = Number(request.category_id);
+    request.jenis_layanan = request.jenis_layanan ?? [];
+    request.kelengkapan = request.kelengkapan ?? [];
     Object.assign(serviceRequest.value, request)
-    loadTeknisi();
+    loadReferensData();
     requestDialog.value = true
 }
 
@@ -407,3 +439,8 @@ const confirmDelete = async (): Promise<void> => {
     }
 }
 </script>
+<style>
+.no-message>.v-input__details {
+    display: none;
+}
+</style>
