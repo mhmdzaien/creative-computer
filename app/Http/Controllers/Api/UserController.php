@@ -14,7 +14,21 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $paginator = User::paginate($request->get('itemsPerPage', 5));
+        $builder = User::with('currentProgress');
+        if ($request->get('search')) {
+            $columnToSearch = [
+                'name',
+                'email',
+            ];
+            foreach ( $columnToSearch as $col) {
+                $builder->orWhere($col, 'like', "%" . $request->get('search') . "%");
+            }
+        }
+        if ($request->get('sortBy')) {
+            $order = $request->get('sortBy')[0];
+            $builder->orderBy($order['key'], $order['order']);
+        }
+        $paginator = $builder->paginate($request->get('itemsPerPage', 5));
         return response()->json([
             'items' => $paginator->items(),
             'total' => $paginator->total(),

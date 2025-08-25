@@ -13,7 +13,27 @@ class ServiceRequestController extends Controller
 {
     public function index(Request $request)
     {
-        $paginator = ServiceRequest::with('currentProgress')->paginate($request->get('itemsPerPage', 5));
+        $builder = ServiceRequest::with('currentProgress');
+        if ($request->get('search')) {
+            $columnToSearch = [
+                'nomor',
+                'pelanggan',
+                'kontak_pelanggan',
+                'barang',
+                'tanggal_masuk',
+                'estimasi_selesai',
+                'estimasi_biaya',
+                'keluhan',
+            ];
+            foreach ( $columnToSearch as $col) {
+                $builder->orWhere($col, 'like', "%" . $request->get('search') . "%");
+            }
+        }
+        if ($request->get('sortBy')) {
+            $order = $request->get('sortBy')[0];
+            $builder->orderBy($order['key'], $order['order']);
+        }
+        $paginator = $builder->paginate($request->get('itemsPerPage', 5));
         $result = ServiceRequest::join('service_progress as s', 's.id', '=', 'service_request.current_progress_id')
             ->select('s.status_id', DB::raw('count(service_request.nomor) as jumlah'))
             ->groupBy('s.status_id')

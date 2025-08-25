@@ -27,8 +27,9 @@
         <v-col cols="12">
             <v-card>
                 <v-card-title class="d-flex align-center justify-space-between">
-                    <v-text-field v-model="search" density="compact" label="Search" prepend-inner-icon="mdi-magnify"
-                        variant="outlined" hide-details single-line></v-text-field>
+                    <v-text-field :loading="loading" v-model="search" density="compact" label="Search"
+                        append-inner-icon="mdi-magnify" variant="outlined" @keyup.enter="() => loadItems(gridOptions)"
+                        @click:append-inner="() => loadItems(gridOptions)" hide-details single-line></v-text-field>
                     <v-btn v-show="false" @click="() => filterShow = !filterShow" class="ms-1">
                         <v-icon icon="solar:filter-bold" />
                     </v-btn>
@@ -40,7 +41,7 @@
                 </v-card-title>
                 <!-- Service Requests Table -->
                 <v-data-table-server v-model:options="gridOptions" :headers="headers" :items="serverItems"
-                    :items-length="totalItems" :loading="loading" :search="search" @update:options="loadItems">
+                    :items-length="totalItems" :loading="loading" @update:options="loadItems">
                     <template v-slot:item.nomor="{ item }">
                         <v-chip color="primary" small>{{ item.nomor }}</v-chip>
                     </template>
@@ -54,16 +55,17 @@
                         <div class="d-flex flex-column">
                             <span class="mb-1 mt-1">Masuk : {{ formatDate(item.tanggal_masuk) }}</span>
                             <span class="mb-1 mt-1">Est. Selesai : {{ formatDate(item.estimasi_selesai) }}</span>
-                            <span class="mb-1 mt-1">Est. Biaya : {{ formatCurrency(item.estimasi_biaya)  }}</span>
+                            <span class="mb-1 mt-1">Est. Biaya : {{ formatCurrency(item.estimasi_biaya) }}</span>
                         </div>
                     </template>
 
 
                     <template v-slot:item.actions="{ item }">
-                        <v-btn class="me-1"  title="Ubah data" @click.stop="editRequest(item)">
+                        <v-btn class="me-1" title="Ubah data" @click.stop="editRequest(item)">
                             <v-icon>mdi-pencil</v-icon>
                         </v-btn>
-                        <v-btn class="me-1" color="info" title="Atur Progres Perbaikan" :to="`/servis/progress/${item.id}`">
+                        <v-btn class="me-1" color="info" title="Atur Progres Perbaikan"
+                            :to="`/servis/progress/${item.id}`">
                             <v-icon>mdi-timeline</v-icon>
                         </v-btn>
                         <v-btn color="error" title="Hapus data" @click.stop="deleteRequest(item)">

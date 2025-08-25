@@ -11,7 +11,7 @@
                         <p class="hero-description mb-4 mb-lg-5" data-aos="fade-up" data-aos-delay="200">Penjualan dan berpengalaman dalam perbaikan komputer, laptop, dan elektronik lainnya..</p>
                         <div class="cta d-flex gap-2 mb-4 mb-lg-5" data-aos="fade-up" data-aos-delay="300">
                             <!-- <a class="btn" href="/produk">Lihat Produk</a> -->
-                        <a class="btn btn-white-outline" href="/cek-service">Cek Status Servis
+                            <a class="btn btn-white-outline" href="/cek-service">Cek Status Servis
                                 <svg class="lucide lucide-arrow-up-right" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M7 7h10v10"></path>
                                     <path d="M7 17 17 7"></path>
@@ -210,7 +210,7 @@
             <div class="col-md-6">
                 <div class="d-flex gap-5 flex-column">
                     <div class="d-flex align-items-start gap-3" data-aos="fade-up" data-aos-delay="0">
-                        <div class="icon d-block"><i class="bi bi-telephone"></i></div><span> <span class="d-block">Phone</span><strong>+621234567890</strong></span>
+                        <div class="icon d-block"><i class="bi bi-telephone"></i></div><span> <span class="d-block">Phone</span><strong>0852-5861-5860</strong></span>
                     </div>
                     <div class="d-flex align-items-start gap-3" data-aos="fade-up" data-aos-delay="100">
                         <div class="icon d-block"><i class="bi bi-send"></i></div><span> <span class="d-block">Email</span><strong>info@mydomain.com</strong></span>
@@ -231,8 +231,8 @@
                                 <input class="form-control" id="name" type="text" name="name" required="">
                             </div>
                             <div class="col-md-12">
-                                <label class="mb-2" for="email">Email</label>
-                                <input class="form-control" id="email" type="email" name="email" required="">
+                                <label class="mb-2" for="hp">No Handphone</label>
+                                <input class="form-control" id="hp" type="text" name="handphone" required="">
                             </div>
                         </div>
                         <div class="row gap-3 gap-md-0 mb-3">
@@ -249,4 +249,30 @@
     </div>
 </section>
 <!-- End Contact-->
+@endsection
+
+@section('script')
+<script>
+    document.getElementById('contactForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Mencegah form disubmit secara default
+
+        // Ambil nilai dari form
+        const nama = document.getElementById('name').value;
+        const handphone = document.getElementById('hp').value;
+        const pesan = document.getElementById('message').value;
+
+        // Encode pesan agar aman untuk URL
+        const phone = '6285258615860'
+        const encodedNama = encodeURIComponent(nama);
+        const encodedHandphone = encodeURIComponent(handphone);
+        const encodedPesan = encodeURIComponent(pesan);
+
+        // Membuat URL WhatsApp dengan data form
+        
+        const waUrl = `https://wa.me/+${phone}?text=Halo%2C%20Saya%20${encodedNama}%0A%0A${encodedPesan}`;
+
+        // Arahkan pengguna ke link WhatsApp
+        window.open(waUrl, '_blank');
+    });
+</script>
 @endsection

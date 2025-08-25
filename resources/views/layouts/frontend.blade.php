@@ -79,12 +79,12 @@ License: https://freebootstrap.net/license
                             <!-- h5#fbs__net-navbarsLabel.offcanvas-title Vertex-->
 
                             <!-- If you plan to use an image logo, uncomment this if it is commented-->
-                            <a class="logo-link" id="fbs__net-navbarsLabel" href="index.html">
+                            <a class="logo-link text-center" id="fbs__net-navbarsLabel" href="/">
 
 
-                                <!-- logo dark--><img class="logo dark img-fluid" src="{{url('themes/frontend')}}/images/logo-dark.svg" alt="FreeBootstrap.net image placeholder">
+                                <!-- logo dark--><img class="logo dark img-fluid" style="height: 80px;" src="/images/logo.png" alt="FreeBootstrap.net image placeholder">
 
-                                <!-- logo light--><img class="logo light img-fluid" src="{{url('themes/frontend')}}/images/logo-light.svg" alt="FreeBootstrap.net image placeholder"></a>
+                                <!-- logo light--><img class="logo light img-fluid" style="height: 80px;" src="/images/logo.png" alt="FreeBootstrap.net image placeholder"></a>
 
                         </div>
                         <button class="btn-close btn-close-black" type="button" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -95,7 +95,7 @@ License: https://freebootstrap.net/license
                             <li class="nav-item"><a class="nav-link scroll-link" aria-current="page" href="{{url('/#home')}}">Home</a></li>
                             <li class="nav-item"><a class="nav-link scroll-link" href="{{url('/#services')}}">Layanan</a></li>
                             <!-- <li class="nav-item"><a class="nav-link scroll-link" href="/produk">Produk</a></li> -->
-                            <li class="nav-item"><a class="nav-link scroll-link" href="/cek-service">Cek Status Service</a></li>
+                            <!-- <li class="nav-item"><a class="nav-link scroll-link" href="/cek-service">Cek Status Service</a></li> -->
                             <li class="nav-item"><a class="nav-link scroll-link" href="{{url('/#about')}}">Tentang Kami</a></li>
                             <li class="nav-item"><a class="nav-link scroll-link" href="{{url('/#contact')}}">Kontak</a></li>
                         </ul>
@@ -106,7 +106,7 @@ License: https://freebootstrap.net/license
                 <div class="ms-auto w-auto">
 
 
-                    <div class="header-social d-flex align-items-center gap-1"><a class="btn btn-primary py-2" href="#">Get Started</a>
+                    <div class="header-social d-flex align-items-center gap-1"><a class="btn btn-primary py-2" href="/cek-service">Cek Status Service</a>
 
                         <button class="fbs__net-navbar-toggler justify-content-center align-items-center ms-auto" data-bs-toggle="offcanvas" data-bs-target="#fbs__net-navbars" aria-controls="fbs__net-navbars" aria-label="Toggle navigation" aria-expanded="false">
                             <svg class="fbs__net-icon-menu" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -159,7 +159,7 @@ License: https://freebootstrap.net/license
                                         <i class="bi bi-envelope-fill me-3"></i><span>info@mydomain.com</span>
                                     </a>
                                     <a class="d-flex mb-3" href="tel://+123456789900">
-                                        <i class="bi bi-telephone-fill me-3"></i><span>+621234567890</span>
+                                        <i class="bi bi-telephone-fill me-3"></i><span>0852-5861-5860</span>
                                     </a>
                                 </div>
                             </div>

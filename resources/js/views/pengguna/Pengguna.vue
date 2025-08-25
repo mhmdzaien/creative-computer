@@ -137,8 +137,9 @@ function loadItems({ page, itemsPerPage, sortBy }) {
         <v-col cols="12" md="12">
             <v-card flat>
                 <v-card-title class="d-flex align-center pe-2">
-                    <v-text-field v-model="search" density="compact" label="Search" prepend-inner-icon="mdi-magnify"
-                        variant="outlined" hide-details single-line></v-text-field>
+                    <v-text-field :loading="loading" v-model="search" density="compact" label="Search"
+                        append-inner-icon="mdi-magnify" variant="outlined" @keyup.enter="() => loadItems(gridOptions)"
+                        @click:append-inner="() => loadItems(gridOptions)" hide-details single-line></v-text-field>
                     <v-btn v-show="false" @click="() => filterShow = !filterShow" class="ms-1">
                         <Icon icon="solar:filter-bold" />
                     </v-btn>
@@ -150,7 +151,7 @@ function loadItems({ page, itemsPerPage, sortBy }) {
                 <GridFilter v-model="filter" :show="filterShow" />
                 <v-divider></v-divider>
                 <v-data-table-server v-model:options="gridOptions" :headers="headers" :items="serverItems"
-                    :items-length="totalItems" :loading="loading" :search="search" @update:options="loadItems">
+                    :items-length="totalItems" :loading="loading" @update:options="loadItems">
                     <template v-slot:item.role="{ item }">
                         <span class="text-capitalize">{{ User.roleList[item.role] }}</span>
                     </template>
