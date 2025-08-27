@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import axios from 'axios';
 import { ref, computed } from 'vue';
 
 /*Chart*/
@@ -70,8 +71,6 @@ const chartOptions = computed(() => {
     };
 });
 
-const select = ref('March');
-const items = ref(['March', 'April', 'May', 'June']);
 </script>
 
 <template>

@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ServiceRequestController;
 use App\Http\Controllers\Api\ServiceProgressController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\BrandController;
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\UserController;
@@ -37,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::group(['prefix' => 'api', 'as' => 'api.'], function () {
         Route::resource('status', StatusController::class);
         Route::resource('settings',SettingController::class)->only(['show','update']);
+        Route::resource('dashboard',DashboardController::class)->only(['show']);
         Route::resource('service-request', ServiceRequestController::class);
         Route::resource('service-progress', ServiceProgressController::class);
         Route::resource('category', CategoryController::class);

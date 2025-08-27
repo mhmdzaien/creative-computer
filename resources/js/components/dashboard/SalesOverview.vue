@@ -1,19 +1,37 @@
 <script setup lang="ts">
+import axios from 'axios';
 import { ref, onMounted, computed } from 'vue';
 
 /*Chart*/
+
+const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+const items = ref<{ bulan: number; jumlah: number; selesai: number }[]>([]);
+const loading = ref(true);
+const loadData = () => {
+    loading.value = false;
+    axios.get("/api/dashboard/bulanan")
+        .then(res => {
+            items.value = res.data;
+        })
+        .catch(() => {
+
+        })
+        .finally(() => {
+            loading.value = false;
+        })
+}
+const series = computed(() => {
+    const series = [{ name: 'Masuk', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }, { name: 'Selesai', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }]
+    items.value.forEach(row => {
+        console.log(row.bulan);
+        series[0].data[row.bulan - 1] = Number(row.jumlah);
+        series[1].data[row.bulan - 1] = Number(row.selesai);
+    })
+    return series;
+})
 const chartOptions = computed(() => {
     return {
-        series: [
-            {
-                name: 'Ample',
-                data: [9, 5, 3, 7, 5, 10, 3]
-            },
-            {
-                name: 'Pixel ',
-                data: [6, 3, 9, 5, 4, 6, 4]
-            }
-        ],
+        series: series,
         chart: {
             fontFamily: 'inherit',
             type: 'bar',
@@ -49,7 +67,7 @@ const chartOptions = computed(() => {
         },
         xaxis: {
             type: 'category',
-            categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            categories: months,
             axisTicks: {
                 show: false
             },
@@ -93,20 +111,10 @@ const chartOptions = computed(() => {
         ]
     };
 });
-const Chart = {
-    series: [
-        {
-            name: 'Ample',
-            data: [9, 5, 3, 7, 5, 10, 3]
-        },
-        {
-            name: 'Pixel',
-            data: [6, 3, 9, 5, 4, 6, 4]
-        }
-    ]
-};
 
-
+onMounted(() => {
+    loadData();
+})
 </script>
 
 <template>
@@ -134,7 +142,11 @@ const Chart = {
                 </div>
             </div>
             <div class="mt-5">
-                <apexchart type="bar" height="320" :options="chartOptions" :series="Chart.series"></apexchart>
+                <div v-if="loading" class="text-center" style="padding:100px 0px;display: flex;flex-direction: column; align-items: center;">
+                    <v-progress-circular  color="primary" indeterminate></v-progress-circular>
+                    Loading Data...
+                </div>
+                <apexchart v-else type="bar" height="320" :options="chartOptions" :series="series"></apexchart>
             </div>
         </v-card-text>
     </VCard>
