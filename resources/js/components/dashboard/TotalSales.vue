@@ -78,8 +78,8 @@ const items = ref(['March', 'April', 'May', 'June']);
     <VCard elevation="10">
         <v-card-text>
             <div>
-                <h3 class="card-title mb-1">Our Visitors</h3>
-                <h5 class="card-subtitle">Different Devices Used to Visit</h5>
+                <h3 class="card-title mb-1">Jumlah Permintaan</h3>
+                <h5 class="card-subtitle">Permintaan berdasarkan kategori</h5>
             </div>
             <div class="mt-5 pt-5 position-relative">
                 <apexchart type="donut" height="265" :options="chartOptions" :series="chartOptions.series"></apexchart>

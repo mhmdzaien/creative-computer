@@ -11,9 +11,13 @@
                 size: A5 landscape;
                 /* Sets the page size to A5 (148mm x 210mm) */
                 margin: 0.5cm;
-
                 /* Optional: Sets a uniform margin of 1cm on all sides */
             }
+
+            body {
+                zoom: 75%;
+            }
+
         }
 
         body {
@@ -87,8 +91,8 @@
         }
 
         .form-section {
-            border: 2px solid #333;
-            margin: 20px 0;
+            border: 1px solid #333;
+            /* margin: 20px 0; */
             padding: 15px;
         }
 
@@ -119,8 +123,8 @@
         .checkbox-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 15px 0;
+            /* gap: 20px; */
+            /* margin: 15px 0; */
         }
 
         .checkbox-group {
@@ -197,7 +201,6 @@
             font-weight: bold;
             text-transform: uppercase;
             margin: 15px 0;
-            text-align: center;
         }
 
         .total-amount {
@@ -230,6 +233,10 @@
         .table-info th {
             text-align: start;
             width: 200px;
+        }
+
+        input[type="checkbox"] {
+            pointer-events: none;
         }
     </style>
 </head>
@@ -298,144 +305,74 @@
             <div class="checkbox-group">
                 <div class="checkbox-title">Kelengkapan:</div>
                 <div class="checkbox-items">
+                    @foreach($listKelengkapan as $item)
                     <div class="checkbox-item">
-                        <span class="checkbox"></span>
-                        <span>Tas</span>
+                        <input type="checkbox" class="checkbox"
+                            @if(in_array($item,$serviceRequest->kelengkapan))
+                        checked
+                        @endif
+                        />
+                        <span>{{$item}}</span>
                     </div>
-                    <div class="checkbox-item">
-                        <span class="checkbox"></span>
-                        <span>Charger</span>
-                    </div>
-                    <div class="checkbox-item">
-                        <span class="checkbox"></span>
-                        <span>Mouse</span>
-                    </div>
-                    <div class="checkbox-item">
-                        <span class="checkbox"></span>
-                        <span>Kabel Usb</span>
-                    </div>
-                    <div class="checkbox-item">
-                        <span class="checkbox"></span>
-                        <span>Kabel Power</span>
-                    </div>
-                    <div class="checkbox-item">
-                        <span class="checkbox"></span>
-                        <span>............</span>
-                    </div>
-                    <div class="checkbox-item">
-                        <span class="checkbox"></span>
-                        <span>............</span>
-                    </div>
+                    @endforeach
                 </div>
             </div>
 
             <!-- Notes Section -->
-            <div class="checkbox-group">
-                <div class="checkbox-title">Penggantian Sparepart / Keterangan lainnya:</div>
-                <div class="notes-section" style="border: none; padding: 0; margin: 0; min-height: 80px;"></div>
+            <div>
+
+                <div class="checkbox-group">
+                    <div class="checkbox-title">Penggantian Sparepart / Keterangan lainnya:</div>
+                    <div class="notes-section" style="border: none; padding: 0; margin: 0; min-height: 80px;"></div>
+                </div>
+                <!-- Garansi Section -->
+                <div class="form-section" style="margin-top: 0;padding:0px 10px">
+                    <div class="form-row">
+                        <span class="form-label">GARANSI Hingga</span>
+                        <span>: </span>
+                        <div class="form-input"></div>
+                    </div>
+                </div>
             </div>
+
         </div>
 
         <!-- Services Section -->
-        <div class="services-section">
-            <div class="service-column">
-                <div class="service-title">Jenis Pelayanan / Perawatan :</div>
-                <div class="checkbox-item">
-                    <span class="checkbox"></span>
-                    <span>Service Mainboard</span>
+        <div class="checkbox-section">
+            <div class="checkbox-group">
+                <div class="checkbox-title">Jenis Pelayanan / Perawatan :</div>
+                <div class="checkbox-items">
+                    @foreach($listLayanan as $item)
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="checkbox"
+                            @if(in_array($item,$serviceRequest->jenis_layanan))
+                        checked
+                        @endif
+                        />
+                        <span>{{$item}}</span>
+                    </div>
+                    @endforeach
                 </div>
-                <div class="checkbox-item">
-                    <span class="checkbox"></span>
-                    <span>Service LED/LCD</span>
-                </div>
-                <div class="checkbox-item">
-                    <span class="checkbox"></span>
-                    <span>Service HDD/SSD</span>
-                </div>
-                <div class="checkbox-item">
-                    <span class="checkbox"></span>
-                    <span>Service Battery</span>
-                </div>
-                <div class="checkbox-item">
-                    <span class="checkbox"></span>
-                    <span>Service Keyboard</span>
-                </div>
-                <div class="checkbox-item">
-                    <span class="checkbox"></span>
-                    <span>Service Engsel/Casing</span>
-                </div>
-                <div class="checkbox-item">
-                    <span class="checkbox"></span>
-                    <span>Service Printer</span>
-                </div>
-            </div>
 
-            <div class="service-column">
-                <div style="margin-top: 30px;">
-                    <div class="checkbox-item">
-                        <span class="checkbox"></span>
-                        <span>Install Windows</span>
-                    </div>
-                    <div class="checkbox-item">
-                        <span class="checkbox"></span>
-                        <span>Install Aplikasi</span>
-                    </div>
-                    <div class="checkbox-item">
-                        <span class="checkbox"></span>
-                        <span>Install Driver</span>
-                    </div>
-                    <div class="checkbox-item">
-                        <span class="checkbox"></span>
-                        <span>Scan/Install Anti Virus</span>
-                    </div>
-                    <div class="checkbox-item">
-                        <span class="checkbox"></span>
-                        <span>Recovery Data / Backup</span>
-                    </div>
-                    <div class="checkbox-item">
-                        <span class="checkbox"></span>
-                        <span>Tukar Tambah</span>
-                    </div>
-                    <div class="checkbox-item">
-                        <span class="checkbox"></span>
-                        <span>Lainnya...</span>
-                    </div>
-                </div>
             </div>
-        </div>
-
-        <!-- Bottom Section -->
-        <div class="bottom-section">
             <div class="date-section">
-                <div class="form-row">
+                <div class="checkbox-title" style="display: flex;">
                     <span class="form-label">Tanggal Selesai dan Konfirmasi</span>
                     <span>: </span>
-                    <div class="form-input"></div>
+                    <div class="form-input" style="min-height: 0px;"></div>
                 </div>
-            </div>
-
-            <div class="total-section">
-                <div class="form-row">
+                <div class="checkbox-title" style="display:flex; align-items:center; justify-content: space-between;">
                     <span class="form-label">Total Biaya :</span>
+                    <div class="total-amount">Rp................................</div>
                 </div>
-                <div class="total-amount">Rp.</div>
+                <!-- Warranty Section -->
+                <div class="warranty-text">
+                    BARANG YANG TIDAK DIAMBIL SETELAH SATU BULAN,
+                    BUKAN TANGGUNG JAWAB KAMI LAGI.
+                </div>
             </div>
         </div>
 
-        <!-- Warranty Section -->
-        <div class="warranty-text">
-            BARANG YANG TIDAK DIAMBIL SETELAH SATU BULAN,<br>
-            BUKAN TANGGUNG JAWAB KAMI LAGI.
-        </div>
-
-        <!-- Garansi Section -->
-        <div class="form-section">
-            <div class="form-row">
-                <span class="form-label">GARANSI Hingga</span>
-                <span>: </span>
-                <div class="form-input"></div>
-            </div>
-        </div>
     </div>
 
     <script>
@@ -445,8 +382,7 @@
             const dateString = today.getDate().toString().padStart(2, '0') + '.' +
                 (today.getMonth() + 1).toString().padStart(2, '0') + '.' +
                 today.getFullYear();
-
-            // window.print();
+            window.print();
         });
     </script>
 </body>

@@ -31,8 +31,8 @@ function href() {
 <template>
     <VCard elevation="10" class="overflow-hidden">
         <v-card-text>
-            <h2 class="card-title mb-1">My Contacts</h2>
-            <h5 class="card-subtitle">Checkout my contacts here</h5>
+            <h2 class="card-title mb-1">Teknisi</h2>
+            <h5 class="card-subtitle">Jumlah Permintaan berdasarkan teknisi</h5>
 
             <div class="mt-5">
                 <div v-for="(item, i) in myContactsData.slice(0,4)" :key="i" @click="href">

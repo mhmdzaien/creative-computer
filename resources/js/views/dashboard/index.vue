@@ -2,7 +2,6 @@
 import SalesOverview from '@/components/dashboard/SalesOverview.vue';
 import TheActivityTimeline from '@/components/dashboard/TheActivityTimeline.vue';
 import TheMyContacts from '@/components/dashboard/TheMyContacts.vue';
-import TheProfileCard from '@/components/dashboard/TheProfileCard.vue';
 import TotalSales from '@/components/dashboard/TotalSales.vue';
 </script>
 
@@ -15,13 +14,11 @@ import TotalSales from '@/components/dashboard/TotalSales.vue';
         <v-col cols="12" sm="12" lg="4">
             <TotalSales />
         </v-col>
-        <v-col cols="12" sm="12" lg="4">
-            <TheProfileCard />
-            <div class="mt-7"></div>
+        <v-col cols="12" sm="12" lg="6">
             <TheMyContacts />
         </v-col>
         <!---Activity timeline tabs--->
-        <v-col cols="12" sm="12" lg="8">
+        <v-col cols="12" sm="12" lg="6">
             <TheActivityTimeline />
         </v-col>
     </v-row>

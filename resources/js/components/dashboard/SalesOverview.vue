@@ -117,18 +117,18 @@ const Chart = {
         <v-card-text>
             <div class="d-sm-flex align-center">
                 <div>
-                    <h3 class="card-title mb-1">Sales Overview</h3>
-                    <h5 class="card-subtitle">Ample Admin Vs Pixel Admin</h5>
+                    <h3 class="card-title mb-1">Permintaan Servis</h3>
+                    <h5 class="card-subtitle">Rekap Masuk dan Selesai</h5>
                 </div>
                 <div class="ms-auto mt-sm-0 mt-4">
                     <div class="d-flex align-center">
                         <div class="d-flex align-center px-2 ">
                             <span class="pa-1 bg-primary rounded-circle me-2"></span>
-                            <span class="font-weight-regular text-subtitle-1 text-primary">Ample</span>
+                            <span class="font-weight-regular text-subtitle-1 text-primary">Masuk</span>
                         </div>
                         <div class="d-flex align-center px-2 ">
                             <span class="pa-1 bg-secondary rounded-circle me-2"></span>
-                            <span class="font-weight-regular text-subtitle-1 text-secondary">Pixel</span>
+                            <span class="font-weight-regular text-subtitle-1 text-secondary">Selesai</span>
                         </div>
                     </div>
                 </div>

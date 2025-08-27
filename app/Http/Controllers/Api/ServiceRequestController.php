@@ -6,6 +6,7 @@ use App\Models\ServiceRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ServiceProgress;
+use App\Models\Setting;
 use App\Models\Status;
 use Illuminate\Support\Facades\DB;
 
@@ -98,7 +99,9 @@ class ServiceRequestController extends Controller
     {
         $serviceRequest = ServiceRequest::with(['teknisi', 'category'])->findOrFail($id);
         return view('/nota-service',[
-            'serviceRequest'=>$serviceRequest
+            'serviceRequest'=>$serviceRequest,
+            'listKelengkapan'=> Setting::get('kelengkapan'),
+            'listLayanan'=> Setting::get('jenis_layanan'),
         ]);
     }
 
