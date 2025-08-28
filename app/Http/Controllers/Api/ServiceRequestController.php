@@ -72,6 +72,8 @@ class ServiceRequestController extends Controller
                 'teknisi_id',
                 'estimasi_biaya',
                 'keluhan',
+                'jenis_layanan',
+                'kelengkapan'
             ]));
             $progress = ServiceProgress::create([
                 'service_request_id' => $serviceRequest->id,

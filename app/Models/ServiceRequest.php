@@ -15,8 +15,8 @@ class ServiceRequest extends Model
 
     protected $attributes = [
         'current_progress_id' => 0,
-        'jenis_layanan'=>[],
-        'kelengkapan'=>[]
+        'jenis_layanan' => '[]',
+        'kelengkapan' => '[]'
     ];
 
 
@@ -37,10 +37,13 @@ class ServiceRequest extends Model
         'jenis_layanan'
     ];
 
-    protected $casts = [
-        'kelengkapan' => 'array', 
-        'jenis_layanan' => 'array', 
-    ];
+    protected function casts(): array
+    {
+        return [
+            'kelengkapan' => 'array',
+            'jenis_layanan' => 'array',
+        ];
+    }
 
     protected $keyType = 'uuid'; // Menyatakan tipe primary key menggunakan UUID
 
@@ -85,12 +88,12 @@ class ServiceRequest extends Model
         });
     }
 
-     public function teknisi()
+    public function teknisi()
     {
         return $this->belongsTo(User::class, 'teknisi_id');
     }
 
-    
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -101,12 +104,13 @@ class ServiceRequest extends Model
         return $this->belongsTo(Status::class, 'progress_id');
     }
 
-    public function currentProgress(){
+    public function currentProgress()
+    {
         return $this->belongsTo(ServiceProgress::class, 'current_progress_id');
-
     }
 
-    public function progress(){
+    public function progress()
+    {
         return $this->hasMany(ServiceProgress::class);
     }
 }
