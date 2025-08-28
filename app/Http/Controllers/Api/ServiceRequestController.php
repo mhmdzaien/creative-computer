@@ -33,6 +33,8 @@ class ServiceRequestController extends Controller
         if ($request->get('sortBy')) {
             $order = $request->get('sortBy')[0];
             $builder->orderBy($order['key'], $order['order']);
+        }else{
+            $builder->orderBy('updated_at','desc');
         }
         $paginator = $builder->paginate($request->get('itemsPerPage', 5));
         $result = ServiceRequest::join('service_progress as s', 's.id', '=', 'service_request.current_progress_id')

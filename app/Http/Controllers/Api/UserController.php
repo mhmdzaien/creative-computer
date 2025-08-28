@@ -15,18 +15,29 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $builder = User::query();
+          if ($request->get('filter')) {
+            $builder->where(function ($query) use ($request) {
+                foreach ($request->filter as $col=>$value) {
+                    $query->where($col, $value);
+                }
+            });
+        }
         if ($request->get('search')) {
             $columnToSearch = [
                 'name',
                 'email',
             ];
-            foreach ( $columnToSearch as $col) {
-                $builder->orWhere($col, 'like', "%" . $request->get('search') . "%");
-            }
+            $builder->where(function ($query) use ($columnToSearch, $request) {
+                foreach ($columnToSearch as $col) {
+                    $query->orWhere($col, 'like', "%" . $request->get('search') . "%");
+                }
+            });
         }
         if ($request->get('sortBy')) {
             $order = $request->get('sortBy')[0];
             $builder->orderBy($order['key'], $order['order']);
+        }else{
+            $builder->orderBy('updated_at','desc');
         }
         $paginator = $builder->paginate($request->get('itemsPerPage', 5));
         return response()->json([
@@ -37,7 +48,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-         $request->validate([
+        $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'role' => ['required'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
@@ -70,9 +81,9 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
         $user->update([
-            'name'=>$request->name,
-            'role'=>$request->role,
-            'email'=>$request->email
+            'name' => $request->name,
+            'role' => $request->role,
+            'email' => $request->email
         ]);
 
         return response()->json($user);

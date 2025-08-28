@@ -230,7 +230,7 @@ const summaryItems = ref<{ status_id: number; total: number }[]>([]);
 const gridOptions = ref({
     itemsPerPage: 5,
     page: 1,
-    sortBy: '',
+    sortBy: [{key:'updated_at',order:'desc'}],
 })
 const dialogReference = ref({
     show: false,
@@ -288,7 +288,7 @@ const headers = [
 async function loadReferensData() {
     loadingTeknisi.value = true;
     try {
-        const teknisiResponse = await axios.get('/api/users');
+        const teknisiResponse = await axios.get('/api/users?filter[role]=2');
         teknisiOptions.value = teknisiResponse.data.items.map(item => ({ value: item.id, title: item.name }));
         const kelengkapanResponse = await axios.get('/api/settings/kelengkapan');
         const jenisLayananResponse = await axios.get('/api/settings/jenis_layanan');
