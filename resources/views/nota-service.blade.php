@@ -15,7 +15,7 @@
             }
 
             body {
-                zoom: 75%;
+                zoom: 73%;
             }
 
         }
@@ -377,6 +377,9 @@
 
     <script>
         // Auto-fill current date
+        const bodyWidth = document.body.offsetWidth;
+    const bodyHeight = document.body.offsetHeight;
+    console.log(bodyHeight,bodyWidth);
         document.addEventListener('DOMContentLoaded', function() {
             const today = new Date();
             const dateString = today.getDate().toString().padStart(2, '0') + '.' +
