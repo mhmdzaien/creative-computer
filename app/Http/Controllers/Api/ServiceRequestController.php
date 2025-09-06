@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ServiceProgress;
 use App\Models\Setting;
 use App\Models\Status;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ServiceRequestController extends Controller
@@ -26,9 +27,14 @@ class ServiceRequestController extends Controller
                 'estimasi_biaya',
                 'keluhan',
             ];
-            foreach ( $columnToSearch as $col) {
-                $builder->orWhere($col, 'like', "%" . $request->get('search') . "%");
-            }
+            $builder->where(function ($query) use ($columnToSearch, $request) {
+                foreach ($columnToSearch as $col) {
+                    $query->orWhere($col, 'like', "%" . $request->get('search') . "%");
+                }
+            });
+        }
+        if($request->get('me') == 'true'){
+            $builder->where('teknisi_id',Auth::user()->id);
         }
         if ($request->get('sortBy')) {
             $order = $request->get('sortBy')[0];
@@ -39,12 +45,15 @@ class ServiceRequestController extends Controller
         $paginator = $builder->paginate($request->get('itemsPerPage', 5));
         $result = ServiceRequest::join('service_progress as s', 's.id', '=', 'service_request.current_progress_id')
             ->select('s.status_id', DB::raw('count(service_request.nomor) as jumlah'))
-            ->groupBy('s.status_id')
-            ->get();
+            ->groupBy('s.status_id');
+
+        if($request->get('me') == 'true'){
+            $result = $result->where('service_request.teknisi_id',Auth::user()->id);
+        }
         return response()->json([
             'items' => $paginator->items(),
             'total' => $paginator->total(),
-            'summary' => $result,
+            'summary' => $result->get(),
         ]);
     }
 

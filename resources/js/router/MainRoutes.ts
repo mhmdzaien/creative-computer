@@ -24,6 +24,11 @@ const MainRoutes = {
             component: () => import('@/views/servis/Servis.vue')
         },
         {
+            name: 'My Task',
+            path: '/servis/me',
+            component: () => import('@/views/servis/Servis.vue')
+        },
+        {
             name: 'Servis Progress',
             path: '/servis/progress/:id',
             component: () => import('@/views/servis/Progress.vue')

@@ -4,7 +4,7 @@
         <v-col cols="12" md="12">
             <v-card flat>
                 <v-card-title class="d-flex align-center pe-2 h4">
-                    <Icon icon="solar:atom-linear" /> Data Permintaan Servis
+                    <Icon icon="solar:atom-linear" /> {{ isMyTask ? 'Tugas Saya' : 'Data Permintaan Servis' }} 
                 </v-card-title>
             </v-card>
         </v-col>
@@ -34,11 +34,11 @@
                         <v-icon icon="solar:filter-bold" />
                     </v-btn>
                     <v-spacer></v-spacer>
-                    <v-btn class="mx-1" color="primary" @click="openAddDialog">
+                    <v-btn v-if="!isMyTask" class="mx-1" color="primary" @click="openAddDialog">
                         <v-icon left>mdi-plus</v-icon>
                         Servis Baru
                     </v-btn>
-                    <v-menu>
+                    <v-menu v-if="!isMyTask">
                         <template v-slot:activator="{ props }">
                             <v-btn color="primary" v-bind="props">
                                 <v-icon>mdi-cog</v-icon>
@@ -73,8 +73,6 @@
                             <span class="mb-1 mt-1">Est. Biaya : {{ formatCurrency(item.estimasi_biaya) }}</span>
                         </div>
                     </template>
-
-
                     <template v-slot:item.actions="{ item }">
                         <v-btn class="me-1" title="Ubah data" @click.stop="editRequest(item)">
                             <v-icon>mdi-pencil</v-icon>
@@ -210,11 +208,12 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue/dist/iconify.js'
 import axios from 'axios'
-import { ref, reactive, computed, Ref, onMounted } from 'vue'
-import { ServiceRequest, ServiceProgress, SelectOption } from '../../types/servis'
+import { ref, computed, Ref, onMounted } from 'vue'
+import { ServiceRequest, SelectOption } from '../../types/servis'
 import { useCurrentUserStore } from '../../stores/current-user.store'
 import { formatCurrency, formatDate, getStatusColor, getStatusText, loadCategory } from '../../plugins/servis-utils'
 import ReferenceGrid from '../../components/ReferenceGrid.vue'
+import { useRoute } from 'vue-router'
 
 interface Statistic {
     title: string
@@ -225,6 +224,7 @@ interface Statistic {
 
 // State
 const currentUser = useCurrentUserStore()
+const isMyTask = useRoute().name == 'My Task';
 const serverItems: Ref<ServiceRequest[]> = ref([])
 const summaryItems = ref<{ status_id: number; total: number }[]>([]);
 const gridOptions = ref({
@@ -310,6 +310,7 @@ function loadItems({ page, itemsPerPage, sortBy }) {
             sortBy,
             search: search.value,
             filter: filter.value,
+            me:isMyTask
         }
     }).then(response => {
         serverItems.value = response.data.items
