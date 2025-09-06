@@ -13,6 +13,7 @@
 @import "./pages/dashboards";
 @import "./pages/auth";
 @import "vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css";
+@import '@vuepic/vue-datepicker/dist/main.css';
 
 .v-data-table__thead th {
     font-weight: bold !important;

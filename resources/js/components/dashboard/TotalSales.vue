@@ -1,12 +1,35 @@
 <script setup lang="ts">
 import axios from 'axios';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 
+const loading = ref(false);
+const items = ref<{ category: string; jumlah: number }[]>([]);
+
+onMounted(() => loadData())
+
+const loadData = () => {
+    loading.value = false;
+    axios.get("/api/dashboard/kategori")
+        .then(res => {
+            items.value = res.data;
+        })
+        .catch(() => {
+
+        })
+        .finally(() => {
+            loading.value = false;
+        })
+}
 /*Chart*/
 const chartOptions = computed(() => {
+    const { series, labels } = items.value.reduce<{ series: number[], labels: string[] }>((result, item) => {
+        result.series.push(item.jumlah);
+        result.labels.push(item.category);
+        return result;
+    }, { series: [], labels: [] })
     return {
-        series: [50, 40, 30, 10],
-        labels: ['Mobile', 'Tablet', 'Other', 'Desktop'],
+        series,
+        labels,
         chart: {
             type: 'donut',
             height: 250,
@@ -36,19 +59,21 @@ const chartOptions = computed(() => {
                             show: true,
                             color: '#a1aab2',
                             fontSize: '13px',
-                            label: 'Our Visitor'
+                            label: 'Jumlah Servis'
                         }
                     }
                 }
             }
         },
-        colors: ['rgba(var(--v-theme-primary))', 'rgba(var(--v-theme-secondary))', '#ecf0f2', 'rgba(var(--v-theme-purple))'],
+        // colors: ['rgba(var(--v-theme-primary))', 'rgba(var(--v-theme-secondary))', '#ecf0f2', 'rgba(var(--v-theme-purple))'],
         tooltip: {
             show: true,
             fillSeriesColor: false
         },
         legend: {
-            show: false
+            show: true,
+            position: 'bottom',
+            fontSize: '18px',
         },
         responsive: [
             {
@@ -76,28 +101,22 @@ const chartOptions = computed(() => {
 <template>
     <VCard elevation="10">
         <v-card-text>
-            <div>
-                <h3 class="card-title mb-1">Jumlah Permintaan</h3>
-                <h5 class="card-subtitle">Permintaan berdasarkan kategori</h5>
+            <div v-if="loading" class="text-center"
+                style="padding:100px 0px;display: flex;flex-direction: column; align-items: center;">
+                <v-progress-circular color="primary" indeterminate></v-progress-circular>
+                Loading Data...
             </div>
-            <div class="mt-5 pt-5 position-relative">
-                <apexchart type="donut" height="265" :options="chartOptions" :series="chartOptions.series"></apexchart>
+            <div v-else>
+                <div>
+                    <h3 class="card-title mb-1">Jumlah Permintaan</h3>
+                    <h5 class="card-subtitle">Permintaan berdasarkan kategori</h5>
+                </div>
+                <div class="mt-5 pt-5 position-relative">
+                    <apexchart type="donut" height="265" :options="chartOptions" :series="chartOptions.series">
+                    </apexchart>
+                </div>
             </div>
         </v-card-text>
-        <div class="d-flex align-center justify-center border-t py-6 ga-1">
-            <div class="d-flex align-center px-2 text-primary">
-                <span class="pa-1 bg-primary rounded-circle me-2"></span>
-                <span class="text-subtitle-1">Mobile</span>
-            </div>
-            <div class="d-flex align-center px-2 text-purple">
-              <span class="pa-1 bg-purple rounded-circle me-2"></span>
-                <span class="text-subtitle-1 ">Desktop</span>
-            </div>
-            <div class="d-flex align-center px-2 text-secondary">
-              <span class="pa-1 bg-secondary rounded-circle me-2"></span>
-                <span class="text-subtitle-1 ">Tablet </span>
-            </div>
-        </div>
     </VCard>
 </template>
 
@@ -107,5 +126,4 @@ const chartOptions = computed(() => {
     left: 46%;
     top: 45%;
 }
-
 </style>
