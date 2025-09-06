@@ -153,7 +153,7 @@
                         <v-col cols="12">
                             <v-label>Kelengkapan</v-label>
                             <v-row>
-                                <v-col sm="12" md="3" v-for="item in listReferensi.kelengkapan">
+                                <v-col md="3" cols="12" v-for="item in listReferensi.kelengkapan">
                                     <v-checkbox density="compact" class="no-message"
                                         v-model="serviceRequest.kelengkapan" :label="item" :value="item"></v-checkbox>
                                 </v-col>
@@ -167,7 +167,7 @@
                         <v-col cols="12">
                             <v-label>Jenis Layanan</v-label>
                             <v-row>
-                                <v-col sm="12" md="3" v-for="item in listReferensi.jenis_layanan">
+                                <v-col cols="12" md="3" v-for="item in listReferensi.jenis_layanan">
                                     <v-checkbox density="compact" class="no-message"
                                         v-model="serviceRequest.jenis_layanan" :label="item" :value="item"></v-checkbox>
                                 </v-col>
