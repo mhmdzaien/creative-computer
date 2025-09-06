@@ -29,7 +29,7 @@ class DashboardController extends Controller
         $results = ServiceRequest::select('category.category', DB::raw('COUNT(service_request.id) as jumlah'))
             ->join('category', 'category.id', '=', 'service_request.category_id')
             ->whereYear('service_request.tanggal_masuk', '=', DB::raw('YEAR(NOW())'))
-            ->groupBy('category.id')
+            ->groupBy('category.id,category.category')
             ->get();
         return $results;
     }
@@ -47,7 +47,7 @@ class DashboardController extends Controller
                     ->on('tanggal_masuk', '<=', DB::raw("'".$request->get('end') . " 23:59:59'"));
             })
             ->leftJoin('service_progress', 'service_progress.id', '=', 'service_request.current_progress_id')
-            ->groupBy('users.id')
+            ->groupBy('users.id,users.name')
             ->get();
         return $results;
     }
