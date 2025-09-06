@@ -26,7 +26,7 @@ class DashboardController extends Controller
 
     protected function category()
     {
-        $results = ServiceRequest::select('category.category', DB::raw('COUNT(service_request.id) as jumlah'))
+        $results = ServiceRequest::select(DB::raw('ANY_VALUE(category.category) as category'), DB::raw('COUNT(service_request.id) as jumlah'))
             ->join('category', 'category.id', '=', 'service_request.category_id')
             ->whereYear('service_request.tanggal_masuk', '=', DB::raw('YEAR(NOW())'))
             ->groupBy('category.id')
@@ -37,7 +37,7 @@ class DashboardController extends Controller
     protected function teknisi(Request $request)
     {
         $results = User::select(
-            'users.name',
+            DB::raw('ANY_VALUE(users.name) as name'),
             DB::raw('COALESCE(COUNT(service_request.id), 0) as jumlah'),
             DB::raw('SUM(CASE WHEN service_progress.status_id = 1 THEN 1 ELSE 0 END) as selesai')
         )
